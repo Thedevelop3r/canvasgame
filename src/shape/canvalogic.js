@@ -14,8 +14,27 @@ class Car {
         this.y = y || 0;
         this.width = width || 100;
         this.height = height || 50;
-        this.speed = 3;
+        this.speed = 1;
         this.direction = 'left';
+        // keyboad event listener arrow keys up down speed increase decrease
+        const handleKeyDown = (event) => {
+            if (event.key === 'ArrowUp') {
+                this.speed += 0.4;
+            } else if (event.key === 'ArrowDown') {
+                switch (this.speed) {
+                    case this.speed <= 0:
+                        this.speed = 0;
+                        break;
+                    default:
+                        this.speed = this.speed - 0.2;
+                        break;
+                }
+
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown);
+
+
     }
 
     draw(context) {
@@ -35,14 +54,14 @@ class Car {
         } else if (this.x < 0) {
             this.direction = 'right';
         }
-   
+
     }
 }
 
 export function main(canvasRef) {
     canvasInit(canvasRef);
     const context = canvasRef.current.getContext('2d');
-    const car = new Car(40, 50, 100, 50);
+    const car = new Car(40, 50, 30, 20);
 
     const loop = () => {
         context.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -53,5 +72,4 @@ export function main(canvasRef) {
 
     loop();
 
-    // requestAnimationFrame(() => main(canvasRef));
 }
